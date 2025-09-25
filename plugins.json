@@ -11,8 +11,8 @@
       "minimum_organizr_version": "2.1.1690",
       "release_date": "2022-03-12",
       "last_updated": "2025-09-19",
-      "github_folder": "stripe",
-      "project_folder": "stripe",
+      "github_folder": "invite",
+      "project_folder": "invite",
       "license": "personal,business",
       "images": {
         "Main": "https://raw.githubusercontent.com/JamesDAdams/organizrv2-api-plugins-invite/refs/heads/main/invite/logo.png",
