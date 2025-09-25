@@ -1,0 +1,22 @@
+{
+    "Stripe": {
+      "repo": "https://github.com/JamesDAdams/organizrv2-api-plugins-invite",
+      "author": "JamesAdams",
+      "category": "Utilities",
+      "description": "Fork of official invite plugin",
+      "icon": "https://raw.githubusercontent.com/JamesDAdams/organizrv2-api-plugins-invite/refs/heads/main/invite/logo.png",
+      "contact": "jamesadams@jamesadams.com",
+      "website": "https://organizr.app",
+      "version": "1.0.0",
+      "minimum_organizr_version": "2.1.1690",
+      "release_date": "2022-03-12",
+      "last_updated": "2025-09-19",
+      "github_folder": "stripe",
+      "project_folder": "stripe",
+      "license": "personal,business",
+      "images": {
+        "Main": "https://raw.githubusercontent.com/JamesDAdams/organizrv2-api-plugins-invite/refs/heads/main/invite/logo.png",
+        "Alternative": "https://raw.githubusercontent.com/JamesDAdams/organizrv2-api-plugins-invite/refs/heads/main/invite/logo.png"
+      }
+    }
+  }
