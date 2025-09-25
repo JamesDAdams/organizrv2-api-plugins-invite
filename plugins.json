@@ -1,5 +1,5 @@
 {
-    "Stripe": {
+    "Invite": {
       "repo": "https://github.com/JamesDAdams/organizrv2-api-plugins-invite",
       "author": "JamesAdams",
       "category": "Utilities",
