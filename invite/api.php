@@ -1,7 +1,7 @@
 <?php
 /**
  * @OA\Tag(
- *     name="plugins-invites",
+ *     name="plugins-invites2",
  *     description="Media Invite Plugin"
  * )
  */
@@ -196,11 +196,11 @@
  *  ),
  * )
  */
-$app->get('/plugins/invites/settings', function ($request, $response, $args) {
+$app->get('/plugins/invites2/settings', function ($request, $response, $args) {
 	/**
 	 * @OA\Get(
-	 *     tags={"plugins-invites"},
-	 *     path="/api/v2/plugins/invites/settings",
+	 *     tags={"plugins-invites2"},
+	 *     path="/api/v2/plugins/invites2/settings",
 	 *     summary="Get settings",
 	 *     @OA\Response(
 	 *      response="200",
@@ -214,7 +214,7 @@ $app->get('/plugins/invites/settings', function ($request, $response, $args) {
 	$Invites = new Invites();
 	if ($Invites->checkRoute($request)) {
 		if ($Invites->qualifyRequest(1, true)) {
-			$GLOBALS['api']['response']['data'] = $Invites->_invitesPluginGetSettings();
+			$GLOBALS['api']['response']['data'] = $Invites->_invites2PluginGetSettings();
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -222,11 +222,11 @@ $app->get('/plugins/invites/settings', function ($request, $response, $args) {
 		->withHeader('Content-Type', 'application/json;charset=UTF-8')
 		->withStatus($GLOBALS['responseCode']);
 });
-$app->get('/plugins/invites', function ($request, $response, $args) {
+$app->get('/plugins/invites2', function ($request, $response, $args) {
 	/**
 	 * @OA\Get(
-	 *     tags={"plugins-invites"},
-	 *     path="/api/v2/plugins/invites",
+	 *     tags={"plugins-invites2"},
+	 *     path="/api/v2/plugins/invites2",
 	 *     summary="Get All Invites",
 	 *     @OA\Response(
 	 *      response="200",
@@ -239,8 +239,8 @@ $app->get('/plugins/invites', function ($request, $response, $args) {
 	 */
 	$Invites = new Invites();
 	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest($Invites->config['INVITES-Auth-include'], true)) {
-			$GLOBALS['api']['response']['data'] = $Invites->_invitesPluginGetCodes();
+		if ($Invites->qualifyRequest($Invites->config['INVITES2-Auth-include'], true)) {
+			$GLOBALS['api']['response']['data'] = $Invites->_invites2PluginGetCodes();
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -248,11 +248,11 @@ $app->get('/plugins/invites', function ($request, $response, $args) {
 		->withHeader('Content-Type', 'application/json;charset=UTF-8')
 		->withStatus($GLOBALS['responseCode']);
 });
-$app->post('/plugins/invites', function ($request, $response, $args) {
+$app->post('/plugins/invites2', function ($request, $response, $args) {
 	/**
 	 * @OA\Post(
-	 *     tags={"plugins-invites"},
-	 *     path="/api/v2/plugins/invites",
+	 *     tags={"plugins-invites2"},
+	 *     path="/api/v2/plugins/invites2",
 	 *     summary="Create Invite Code",
 	 *     @OA\Response(
 	 *      response="200",
@@ -265,8 +265,8 @@ $app->post('/plugins/invites', function ($request, $response, $args) {
 	 */
 	$Invites = new Invites();
 	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest($Invites->config['INVITES-Auth-include'], true)) {
-			$Invites->_invitesPluginCreateCode($Invites->apiData($request));
+		if ($Invites->qualifyRequest($Invites->config['INVITES2-Auth-include'], true)) {
+			$Invites->_invites2PluginCreateCode($Invites->apiData($request));
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -274,11 +274,11 @@ $app->post('/plugins/invites', function ($request, $response, $args) {
 		->withHeader('Content-Type', 'application/json;charset=UTF-8')
 		->withStatus($GLOBALS['responseCode']);
 });
-$app->get('/plugins/invites/{code}', function ($request, $response, $args) {
+$app->get('/plugins/invites2/{code}', function ($request, $response, $args) {
 	/**
 	 * @OA\Get(
-	 *     tags={"plugins-invites"},
-	 *     path="/api/v2/plugins/invites/{code}",
+	 *     tags={"plugins-invites2"},
+	 *     path="/api/v2/plugins/invites2/{code}",
 	 *     summary="Verify Invite Code",
 	 *     @OA\Parameter(
 	 *      name="code",
@@ -301,7 +301,7 @@ $app->get('/plugins/invites/{code}', function ($request, $response, $args) {
 	$Invites = new Invites();
 	if ($Invites->checkRoute($request)) {
 		if ($Invites->qualifyRequest(999, true)) {
-			$Invites->_invitesPluginVerifyCode($args['code']);
+			$Invites->_invites2PluginVerifyCode($args['code']);
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -309,11 +309,11 @@ $app->get('/plugins/invites/{code}', function ($request, $response, $args) {
 		->withHeader('Content-Type', 'application/json;charset=UTF-8')
 		->withStatus($GLOBALS['responseCode']);
 });
-$app->post('/plugins/invites/{code}', function ($request, $response, $args) {
+$app->post('/plugins/invites2/{code}', function ($request, $response, $args) {
 	/**
 	 * @OA\Post(
-	 *     tags={"plugins-invites"},
-	 *     path="/api/v2/plugins/invites/{code}",
+	 *     tags={"plugins-invites2"},
+	 *     path="/api/v2/plugins/invites2/{code}",
 	 *     summary="Use Invite Code",
 	 *     @OA\Parameter(
 	 *      name="code",
@@ -336,7 +336,7 @@ $app->post('/plugins/invites/{code}', function ($request, $response, $args) {
 	$Invites = new Invites();
 	if ($Invites->checkRoute($request)) {
 		if ($Invites->qualifyRequest(999, true)) {
-			$Invites->_invitesPluginUseCode($args['code'], $Invites->apiData($request));
+			$Invites->_invites2PluginUseCode($args['code'], $Invites->apiData($request));
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -344,11 +344,11 @@ $app->post('/plugins/invites/{code}', function ($request, $response, $args) {
 		->withHeader('Content-Type', 'application/json;charset=UTF-8')
 		->withStatus($GLOBALS['responseCode']);
 });
-$app->delete('/plugins/invites/{code}', function ($request, $response, $args) {
+$app->delete('/plugins/invites2/{code}', function ($request, $response, $args) {
 	/**
 	 * @OA\Delete(
-	 *     tags={"plugins-invites"},
-	 *     path="/api/v2/plugins/invites/{code}",
+	 *     tags={"plugins-invites2"},
+	 *     path="/api/v2/plugins/invites2/{code}",
 	 *     summary="Delete Invite Code",
 	 *     @OA\Parameter(
 	 *      name="code",
@@ -371,8 +371,8 @@ $app->delete('/plugins/invites/{code}', function ($request, $response, $args) {
 	 */
 	$Invites = new Invites();
 	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest($Invites->config['INVITES-Auth-include'], true)) {
-			$Invites->_invitesPluginDeleteCode($args['code']);
+		if ($Invites->qualifyRequest($Invites->config['INVITES2-Auth-include'], true)) {
+			$Invites->_invites2PluginDeleteCode($args['code']);
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));

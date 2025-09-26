@@ -1,22 +1,22 @@
 <?php
 // PLUGIN INFORMATION
-$GLOBALS['plugins']['Invites'] = array( // Plugin Name
-	'name' => 'Invites', // Plugin Name
+$GLOBALS['plugins']['Invites2'] = array( // Plugin Name
+	'name' => 'Invites2', // Plugin Name
 	'author' => 'CauseFX', // Who wrote the plugin
 	'category' => 'Management', // One to Two Word Description
 	'link' => '', // Link to plugin info
 	'license' => 'personal', // License Type use , for multiple
-	'idPrefix' => 'INVITES', // html element id prefix
-	'configPrefix' => 'INVITES', // config file prefix for array items without the hyphen
+	'idPrefix' => 'Invites2', // html element id prefix
+	'configPrefix' => 'Invites2', // config file prefix for array items without the hyphen
 	'version' => '1.1.0', // SemVer of plugin
-	'image' => 'api/plugins/invites/logo.png', // 1:1 non transparent image for plugin
+	'image' => 'api/plugins/Invites2/logo.png', // 1:1 non transparent image for plugin
 	'settings' => true, // does plugin need a settings modal?
 	'bind' => true, // use default bind to make settings page - true or false
-	'api' => 'api/v2/plugins/invites/settings', // api route for settings page
+	'api' => 'api/v2/plugins/Invites2/settings', // api route for settings page
 	'homepage' => false // Is plugin for use on homepage? true or false
 );
 
-class Invites extends Organizr
+class Invites2 extends Organizr
 {
 	public function __construct()
 	{
@@ -28,7 +28,7 @@ class Invites extends Organizr
 	{
 		if ($this->hasDB()) {
 			$compare = new Composer\Semver\Comparator;
-			$oldVer = $this->config['INVITES-dbVersion'];
+			$oldVer = $this->config['Invites2-dbVersion'];
 			// Upgrade check start for version below
 			$versionCheck = '1.1.0';
 			if ($compare->lessThan($oldVer, $versionCheck)) {
@@ -37,10 +37,10 @@ class Invites extends Organizr
 			}
 			// End Upgrade check start for version above
 			// Update config.php version if different to the installed version
-			if ($GLOBALS['plugins']['Invites']['version'] !== $this->config['INVITES-dbVersion']) {
-				$this->updateConfig(array('INVITES-dbVersion' => $oldVer));
-				$this->setLoggerChannel('Invites Plugin');
-				$this->logger->debug('Updated INVITES-dbVersion to ' . $oldVer);
+			if ($GLOBALS['plugins']['Invites2']['version'] !== $this->config['Invites2-dbVersion']) {
+				$this->updateConfig(array('Invites2-dbVersion' => $oldVer));
+				$this->setLoggerChannel('Invites2 Plugin');
+				$this->logger->debug('Updated Invites2-dbVersion to ' . $oldVer);
 			}
 			return true;
 		}
@@ -59,22 +59,22 @@ class Invites extends Organizr
 
 	public function _addInvitedByColumnToDatabase()
 	{
-		$addColumn = $this->addColumnToDatabase('invites', 'invitedby', 'TEXT');
-		$this->setLoggerChannel('Invites Plugin');
+		$addColumn = $this->addColumnToDatabase('Invites2', 'invitedby', 'TEXT');
+		$this->setLoggerChannel('Invites2 Plugin');
 		if ($addColumn) {
-			$this->logger->info('Updated Invites Database');
+			$this->logger->info('Updated Invites2 Database');
 		} else {
-			$this->logger->warning('Could not update Invites Database');
+			$this->logger->warning('Could not update Invites2 Database');
 		}
 	}
 
-	public function _invitesPluginGetCodes()
+	public function _Invites2PluginGetCodes()
 	{
 		if ($this->qualifyRequest(1, false)) {
 			$response = [
 				array(
 					'function' => 'fetchAll',
-					'query' => 'SELECT * FROM invites'
+					'query' => 'SELECT * FROM Invites2'
 				)
 			];
 		} else {
@@ -82,7 +82,7 @@ class Invites extends Organizr
 				array(
 					'function' => 'fetchAll',
 					'query' => array(
-						'SELECT * FROM invites WHERE invitedby = ?',
+						'SELECT * FROM Invites2 WHERE invitedby = ?',
 						$this->user['username']
 					)
 				)
@@ -92,16 +92,16 @@ class Invites extends Organizr
 		return $this->processQueries($response);
 	}
 
-	public function _invitesPluginCreateCode($array)
+	public function _Invites2PluginCreateCode($array)
 	{
 		$code = ($array['code']) ?? null;
 		$username = ($array['username']) ?? null;
 		$email = ($array['email']) ?? null;
-		$invites = $this->_invitesPluginGetCodes();
-		$inviteCount = count($invites);
+		$Invites2 = $this->_Invites2PluginGetCodes();
+		$inviteCount = count($Invites2);
 		if (!$this->qualifyRequest(1, false)) {
-			if ($this->config['INVITES-maximum-invites'] != 0 && $inviteCount >= $this->config['INVITES-maximum-invites']) {
-				$this->setAPIResponse('error', 'Maximum number of invites reached', 409);
+			if ($this->config['Invites2-maximum-Invites2'] != 0 && $inviteCount >= $this->config['Invites2-maximum-Invites2']) {
+				$this->setAPIResponse('error', 'Maximum number of Invites2 reached', 409);
 				return false;
 			}
 		}
@@ -122,7 +122,7 @@ class Invites extends Organizr
 			'email' => $email,
 			'username' => $username,
 			'valid' => 'Yes',
-			'type' => $this->config['INVITES-type-include'],
+			'type' => $this->config['Invites2-type-include'],
 			'invitedby' => $this->user['username'],
 			'date' => gmdate('Y-m-d H:i:s')
 		];
@@ -130,14 +130,14 @@ class Invites extends Organizr
 			array(
 				'function' => 'query',
 				'query' => array(
-					'INSERT INTO [invites]',
+					'INSERT INTO [Invites2]',
 					$newCode
 				)
 			)
 		];
 		$query = $this->processQueries($response);
 		if ($query) {
-			$this->setLoggerChannel('Invites')->info('Added Invite [' . $code . ']');
+			$this->setLoggerChannel('Invites2')->info('Added Invite [' . $code . ']');
 			if ($this->config['PHPMAILER-enabled']) {
 				$PhpMailer = new PhpMailer();
 				$emailTemplate = array(
@@ -163,13 +163,13 @@ class Invites extends Organizr
 		}
 	}
 
-	public function _invitesPluginVerifyCode($code)
+	public function _Invites2PluginVerifyCode($code)
 	{
 		$response = [
 			array(
 				'function' => 'fetchAll',
 				'query' => array(
-					'SELECT * FROM invites WHERE valid = "Yes" AND code = ? COLLATE NOCASE',
+					'SELECT * FROM Invites2 WHERE valid = "Yes" AND code = ? COLLATE NOCASE',
 					$code
 				)
 			)
@@ -183,32 +183,32 @@ class Invites extends Organizr
 		}
 	}
 
-	public function _invitesPluginDeleteCode($code)
+	public function _Invites2PluginDeleteCode($code)
 	{
 		if ($this->qualifyRequest(1, false)) {
 			$response = [
 				array(
 					'function' => 'fetch',
 					'query' => array(
-						'SELECT * FROM invites WHERE code = ? COLLATE NOCASE',
+						'SELECT * FROM Invites2 WHERE code = ? COLLATE NOCASE',
 						$code
 					)
 				)
 			];
 		} else {
-			if ($this->config['INVITES-allow-delete']) {
+			if ($this->config['Invites2-allow-delete']) {
 				$response = [
 					array(
 						'function' => 'fetch',
 						'query' => array(
-							'SELECT * FROM invites WHERE invitedby = ? AND code = ? COLLATE NOCASE',
+							'SELECT * FROM Invites2 WHERE invitedby = ? AND code = ? COLLATE NOCASE',
 							$this->user['username'],
 							$code
 						)
 					)
 				];
 			} else {
-				$this->setAPIResponse('error', 'You are not permitted to delete invites.', 409);
+				$this->setAPIResponse('error', 'You are not permitted to delete Invites2.', 409);
 				return false;
 			}
 		}
@@ -221,7 +221,7 @@ class Invites extends Organizr
 			array(
 				'function' => 'query',
 				'query' => array(
-					'DELETE FROM invites WHERE code = ? COLLATE NOCASE',
+					'DELETE FROM Invites2 WHERE code = ? COLLATE NOCASE',
 					$code
 				)
 			)
@@ -230,13 +230,13 @@ class Invites extends Organizr
 		return $this->processQueries($response);
 	}
 
-	public function _invitesPluginUseCode($code, $array)
+	public function _Invites2PluginUseCode($code, $array)
 	{
 		$code = ($code) ?? null;
 		$usedBy = ($array['usedby']) ?? null;
 		$now = date("Y-m-d H:i:s");
 		$currentIP = $this->userIP();
-		if ($this->_invitesPluginVerifyCode($code)) {
+		if ($this->_Invites2PluginVerifyCode($code)) {
 			$updateCode = [
 				'valid' => 'No',
 				'usedby' => $usedBy,
@@ -247,7 +247,7 @@ class Invites extends Organizr
 				array(
 					'function' => 'query',
 					'query' => array(
-						'UPDATE invites SET',
+						'UPDATE Invites2 SET',
 						$updateCode,
 						'WHERE code=? COLLATE NOCASE',
 						$code
@@ -255,14 +255,14 @@ class Invites extends Organizr
 				)
 			];
 			$query = $this->processQueries($response);
-			$this->setLoggerChannel('Invites')->info('Invite Used [' . $code . ']');
-			return $this->_invitesPluginAction($usedBy, 'share', $this->config['INVITES-type-include']);
+			$this->setLoggerChannel('Invites2')->info('Invite Used [' . $code . ']');
+			return $this->_Invites2PluginAction($usedBy, 'share', $this->config['Invites2-type-include']);
 		} else {
 			return false;
 		}
 	}
 
-	public function _invitesPluginLibraryList($type = null)
+	public function _Invites2PluginLibraryList($type = null)
 	{
 		switch ($type) {
 			case 'plex':
@@ -281,9 +281,9 @@ class Invites extends Organizr
 							foreach ($plex->Server->Section as $child) {
 								$libraryList['libraries'][(string)$child['title']] = (string)$child['id'];
 							}
-							if ($this->config['INVITES-plexLibraries'] !== '') {
+							if ($this->config['Invites2-plexLibraries'] !== '') {
 								$noLongerId = 0;
-								$libraries = explode(',', $this->config['INVITES-plexLibraries']);
+								$libraries = explode(',', $this->config['Invites2-plexLibraries']);
 								foreach ($libraries as $child) {
 									if (!$this->search_for_value($child, $libraryList)) {
 										$libraryList['libraries']['No Longer Exists - ' . $noLongerId] = $child;
@@ -307,10 +307,10 @@ class Invites extends Organizr
 		return false;
 	}
 
-	public function _invitesPluginGetSettings()
+	public function _Invites2PluginGetSettings()
 	{
-		if ($this->config['plexID'] !== '' && $this->config['plexToken'] !== '' && $this->config['INVITES-type-include'] == 'plex') {
-			$loop = $this->_invitesPluginLibraryList($this->config['INVITES-type-include'])['libraries'];
+		if ($this->config['plexID'] !== '' && $this->config['plexToken'] !== '' && $this->config['Invites2-type-include'] == 'plex') {
+			$loop = $this->_Invites2PluginLibraryList($this->config['Invites2-type-include'])['libraries'];
 			foreach ($loop as $key => $value) {
 				$libraryList[] = array(
 					'name' => $key,
@@ -330,9 +330,9 @@ class Invites extends Organizr
 			'Backend' => array(
 				array(
 					'type' => 'select',
-					'name' => 'INVITES-type-include',
+					'name' => 'Invites2-type-include',
 					'label' => 'Media Server',
-					'value' => $this->config['INVITES-type-include'],
+					'value' => $this->config['Invites2-type-include'],
 					'options' => array(
 						array(
 							'name' => 'N/A',
@@ -350,24 +350,24 @@ class Invites extends Organizr
 				),
 				array(
 					'type' => 'select',
-					'name' => 'INVITES-Auth-include',
+					'name' => 'Invites2-Auth-include',
 					'label' => 'Minimum Authentication',
-					'value' => $this->config['INVITES-Auth-include'],
+					'value' => $this->config['Invites2-Auth-include'],
 					'options' => $this->groupSelect()
 				),
 				array(
 					'type' => 'switch',
-					'name' => 'INVITES-allow-delete-include',
-					'label' => 'Allow users to delete invites',
+					'name' => 'Invites2-allow-delete-include',
+					'label' => 'Allow users to delete Invites2',
 					'help' => 'This must be disabled to enforce invitation limits.',
-					'value' => $this->config['INVITES-allow-delete-include']
+					'value' => $this->config['Invites2-allow-delete-include']
 				),
 				array(
 					'type' => 'number',
-					'name' => 'INVITES-maximum-invites',
-					'label' => 'Maximum number of invites permitted for users.',
+					'name' => 'Invites2-maximum-Invites2',
+					'label' => 'Maximum number of Invites2 permitted for users.',
 					'help' => 'Set to 0 to disable the limit.',
-					'value' => $this->config['INVITES-maximum-invites'],
+					'value' => $this->config['Invites2-maximum-Invites2'],
 					'placeholder' => '0'
 				),
 			),
@@ -384,7 +384,7 @@ class Invites extends Organizr
 					'label' => 'Get Plex Token',
 					'icon' => 'fa fa-ticket',
 					'text' => 'Retrieve',
-					'attr' => 'onclick="PlexOAuth(oAuthSuccess,oAuthError, oAuthMaxRetry, null, null, \'#INVITES-settings-items [name=plexToken]\')"'
+					'attr' => 'onclick="PlexOAuth(oAuthSuccess,oAuthError, oAuthMaxRetry, null, null, \'#Invites2-settings-items [name=plexToken]\')"'
 				),
 				array(
 					'type' => 'password-alt',
@@ -398,36 +398,36 @@ class Invites extends Organizr
 					'label' => 'Get Plex Machine',
 					'icon' => 'fa fa-id-badge',
 					'text' => 'Retrieve',
-					'attr' => 'onclick="showPlexMachineForm(\'#INVITES-settings-items [name=plexID]\')"'
+					'attr' => 'onclick="showPlexMachineForm(\'#Invites2-settings-items [name=plexID]\')"'
 				),
 				array(
 					'type' => 'select2',
 					'class' => 'select2-multiple',
 					'id' => 'invite-select-' . $this->random_ascii_string(6),
-					'name' => 'INVITES-plexLibraries',
+					'name' => 'Invites2-plexLibraries',
 					'label' => 'Libraries',
-					'value' => $this->config['INVITES-plexLibraries'],
+					'value' => $this->config['Invites2-plexLibraries'],
 					'options' => $libraryList
 				),
 				array(
 					'type' => 'text',
-					'name' => 'INVITES-plex-tv-labels',
+					'name' => 'Invites2-plex-tv-labels',
 					'label' => 'TV Labels (comma separated)',
-					'value' => $this->config['INVITES-plex-tv-labels'],
+					'value' => $this->config['Invites2-plex-tv-labels'],
 					'placeholder' => 'All'
 				),
 				array(
 					'type' => 'text',
-					'name' => 'INVITES-plex-movies-labels',
+					'name' => 'Invites2-plex-movies-labels',
 					'label' => 'Movies Labels (comma separated)',
-					'value' => $this->config['INVITES-plex-movies-labels'],
+					'value' => $this->config['Invites2-plex-movies-labels'],
 					'placeholder' => 'All'
 				),
 				array(
 					'type' => 'text',
-					'name' => 'INVITES-plex-music-labels',
+					'name' => 'Invites2-plex-music-labels',
 					'label' => 'Music Labels (comma separated)',
-					'value' => $this->config['INVITES-plex-music-labels'],
+					'value' => $this->config['Invites2-plex-music-labels'],
 					'placeholder' => 'All'
 				),
 			),
@@ -448,9 +448,9 @@ class Invites extends Organizr
 				),
 				array(
 					'type' => 'text',
-					'name' => 'INVITES-EmbyTemplate',
+					'name' => 'Invites2-EmbyTemplate',
 					'label' => 'Emby User to be used as template for new users',
-					'value' => $this->config['INVITES-EmbyTemplate'],
+					'value' => $this->config['Invites2-EmbyTemplate'],
 					'placeholder' => 'AdamSmith'
 				)
 			),
@@ -464,7 +464,7 @@ class Invites extends Organizr
 		);
 	}
 
-	public function _invitesPluginAction($username, $action = null, $type = null)
+	public function _Invites2PluginAction($username, $action = null, $type = null)
 	{
 		if ($action == null) {
 			$this->setAPIResponse('error', 'No Action supplied', 409);
@@ -474,23 +474,23 @@ class Invites extends Organizr
 			case 'plex':
 				if (!empty($this->config['plexToken']) && !empty($this->config['plexID'])) {
 					$url = "https://plex.tv/api/servers/" . $this->config['plexID'] . "/shared_servers/";
-					if ($this->config['INVITES-plexLibraries'] !== "") {
-						$libraries = explode(',', $this->config['INVITES-plexLibraries']);
+					if ($this->config['Invites2-plexLibraries'] !== "") {
+						$libraries = explode(',', $this->config['Invites2-plexLibraries']);
 					} else {
 						$libraries = '';
 					}
-					if ($this->config['INVITES-plex-tv-labels'] !== "") {
-						$tv_labels = "label=" . $this->config['INVITES-plex-tv-labels'];
+					if ($this->config['Invites2-plex-tv-labels'] !== "") {
+						$tv_labels = "label=" . $this->config['Invites2-plex-tv-labels'];
 					} else {
 						$tv_labels = "";
 					}
-					if ($this->config['INVITES-plex-movies-labels'] !== "") {
-						$movies_labels = "label=" . $this->config['INVITES-plex-movies-labels'];
+					if ($this->config['Invites2-plex-movies-labels'] !== "") {
+						$movies_labels = "label=" . $this->config['Invites2-plex-movies-labels'];
 					} else {
 						$movies_labels = "";
 					}
-					if ($this->config['INVITES-plex-music-labels'] !== "") {
-						$music_labels = "label=" . $this->config['INVITES-plex-music-labels'];
+					if ($this->config['Invites2-plex-music-labels'] !== "") {
+						$music_labels = "label=" . $this->config['Invites2-plex-music-labels'];
 					} else {
 						$music_labels = "";
 					}
@@ -517,7 +517,7 @@ class Invites extends Organizr
 								$response = Requests::post($url, $headers, json_encode($data), array());
 								break;
 							case 'unshare':
-								$id = (is_numeric($username) ? $username : $this->_invitesPluginConvertPlexName($username, "id"));
+								$id = (is_numeric($username) ? $username : $this->_Invites2PluginConvertPlexName($username, "id"));
 								$url = $url . $id;
 								$response = Requests::delete($url, $headers, array());
 								break;
@@ -526,7 +526,7 @@ class Invites extends Organizr
 								return false;
 						}
 						if ($response->success) {
-							$this->setLoggerChannel('Invites')->info('Plex User now has access to system');
+							$this->setLoggerChannel('Invites2')->info('Plex User now has access to system');
 							$this->setAPIResponse('success', 'Plex User now has access to system', 200);
 							return true;
 						} else {
@@ -576,7 +576,7 @@ class Invites extends Organizr
 		return false;
 	}
 
-	public function _invitesPluginConvertPlexName($user, $type)
+	public function _Invites2PluginConvertPlexName($user, $type)
 	{
 		$array = $this->userList('plex');
 		switch ($type) {

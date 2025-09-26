@@ -1,5 +1,5 @@
 {
-    "Invite": {
+    "Invite2": {
       "repo": "https://github.com/JamesDAdams/organizrv2-api-plugins-invite",
       "author": "JamesAdams",
       "category": "Utilities",
@@ -11,8 +11,8 @@
       "minimum_organizr_version": "2.1.1690",
       "release_date": "2022-03-12",
       "last_updated": "2025-09-19",
-      "github_folder": "invite",
-      "project_folder": "invite",
+      "github_folder": "invite2",
+      "project_folder": "invite2",
       "license": "personal,business",
       "images": {
         "Main": "https://raw.githubusercontent.com/JamesDAdams/organizrv2-api-plugins-invite/refs/heads/main/invite/logo.png",
