@@ -10,5 +10,5 @@ return array(
 	'INVITES2-plex-music-labels' => '',
 	'INVITES2-plex-movies-labels' => '',
 	'INVITES2-allow-delete-include' => false,
-	'INVITES2-maximum-INVITES2' => '0'
+	'INVITES2-maximum-invites2' => '0'
 );

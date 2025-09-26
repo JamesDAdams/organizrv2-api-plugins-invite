@@ -1,4 +1,4 @@
-/* Invites2 JS FILE */
+/* INVITES2 JS FILE */
 $('body').arrive('#activeInfo', {onceOnly: true}, function() {
 	inviteLaunch();
 });
@@ -12,8 +12,8 @@ function inviteLaunch(){
 		</div>
 	</div>
 	`;
-	if(activeInfo.plugins["Invites2-enabled"] == true){
-		if (activeInfo.user.loggedin === true && activeInfo.user.groupID <= activeInfo.plugins.includes["Invites2-Auth-include"]) {
+	if(activeInfo.plugins["INVITES2-enabled"] == true){
+		if (activeInfo.user.loggedin === true && activeInfo.user.groupID <= activeInfo.plugins.includes["INVITES2-Auth-include"]) {
 			menuList = `<li><a class="inline-popups inviteModal" href="#invite-area" data-effect="mfp-zoom-out"><i class="fa fa-ticket fa-fw"></i> <span lang="en">Manage Invites2</span></a></li>`;
 			htmlDOM += `
 			<div id="new-invite-area" class="white-popup mfp-with-anim mfp-hide">
@@ -152,7 +152,7 @@ function hasPlexUsername(){
 			usedby:username.val()
 		};
 		ajaxloader(".content-wrap","in");
-		organizrAPI2('POST','api/v2/plugins/Invites2/' + code,post).success(function(data) {
+		organizrAPI2('POST','api/v2/plugins/invites2/' + code,post).success(function(data) {
 			var response = data.response;
 			if(response.result === 'success'){
 				$('.invite-step-3-plex-yes').toggleClass('hidden');
@@ -181,7 +181,7 @@ function hasEmbyUsername(){
 			usedby:username.val()
 		};
 		ajaxloader(".content-wrap","in");
-		organizrAPI2('POST','api/v2/plugins/Invites2/' + code,post).success(function(data) {
+		organizrAPI2('POST','api/v2/plugins/invites2/' + code,post).success(function(data) {
 			var response = data.response;
 			if(response.result === 'success'){
 				$('.invite-step-3-emby-yes').toggleClass('hidden');
@@ -202,7 +202,7 @@ function hasEmbyUsername(){
 function verifyInvite(){
 	var code = $('#inviteCodeInput').val().toUpperCase();
 	ajaxloader(".content-wrap","in");
-	organizrAPI2('GET','api/v2/plugins/Invites2/'+code).success(function(data) {
+	organizrAPI2('GET','api/v2/plugins/invites2/'+code).success(function(data) {
 		var response = data.response;
 		if(response.result === 'success'){
 			$('.invite-step-1').toggleClass('hidden');
@@ -253,7 +253,7 @@ function createNewInvite(){
 			username:username.val(),
 		};
 		ajaxloader(".content-wrap","in");
-		organizrAPI2('POST','api/v2/plugins/Invites2',post).success(function(data) {
+		organizrAPI2('POST','api/v2/plugins/invites2',post).success(function(data) {
 			var response = data.response;
 			$.magnificPopup.close();
 			ajaxloader();
@@ -268,7 +268,7 @@ function createNewInvite(){
 }
 function deleteInvite(code, id){
 	ajaxloader(".content-wrap","in");
-	organizrAPI2('DELETE','api/v2/plugins/Invites2/' + code).success(function(data) {
+	organizrAPI2('DELETE','api/v2/plugins/invites2/' + code).success(function(data) {
 		var response = data.response;
 		$('#inviteItem-'+id).remove();
 		//$.magnificPopup.close();
@@ -286,7 +286,7 @@ function buildInvites2(array){
 	if(array.length == 0){
 		return '<h2 class="text-center" lang="en">No Invites2</h2>';
 	}
-	var Invites2 = '';
+	var invites2 = '';
 	$.each(array, function(i,v) {
 		v.dateused = (v.dateused) ? v.dateused : '-';
 		v.usedby = (v.usedby) ? v.usedby : '-';
@@ -294,7 +294,7 @@ function buildInvites2(array){
 		v.date = typeof v.date == 'object' ? v.date.date : v.date;
 		let m = moment.tz(v.date, activeInfo.timezone);
 		v.date = moment(m).format('LLL');
-		Invites2 += `
+		invites2 += `
 		<tr id="inviteItem-`+v.id+`">
 			<td class="text-center">`+v.id+`</td>
 			<td>`+v.username+`</td>
@@ -310,13 +310,13 @@ function buildInvites2(array){
 		</tr>
 		`;
 	});
-	return Invites2;
+	return invites2;
 }
 $(document).on('click', '.inviteModal', function() {
 	var htmlDOM = '';
-	if (activeInfo.user.loggedin === true && activeInfo.user.groupID <= activeInfo.plugins.includes["Invites2-Auth-include"]) {
+	if (activeInfo.user.loggedin === true && activeInfo.user.groupID <= activeInfo.plugins.includes["INVITES2-Auth-include"]) {
 		ajaxloader(".content-wrap","in");
-		organizrAPI2('GET','api/v2/plugins/Invites2').success(function(data) {
+		organizrAPI2('GET','api/v2/plugins/invites2').success(function(data) {
 			var response = data.response;
 			var htmlDOM = '';
 			htmlDOM = `
@@ -353,7 +353,7 @@ $(document).on('click', '.inviteModal', function() {
 			<div class="clearfix"></div>
 			`;
 			$('.invite-div').html(htmlDOM);
-			if (activeInfo.plugins.includes["Invites2-allow-delete-include"] === false && activeInfo.user.groupID > 1) {
+			if (activeInfo.plugins.includes["INVITES2-allow-delete-include"] === false && activeInfo.user.groupID > 1) {
 				$('.deleteButton').hide();
 			}
 		}).fail(function(xhr) {
@@ -377,12 +377,12 @@ $(document).on('click', '.inviteModal', function() {
 						</div>
 						<div class="form-group invite-step-2 hidden">
 							<div class="row">
-								<h2 class="text-center" lang="en">Do you have a `+activeInfo.plugins.includes["Invites2-type-include"].toUpperCase()+` account?</h2>
+								<h2 class="text-center" lang="en">Do you have a `+activeInfo.plugins.includes["INVITES2-type-include"].toUpperCase()+` account?</h2>
 								<div class="col-lg-6">
-									<button class="btn btn-block btn-info m-b-10" onclick="inviteHasAccount('`+activeInfo.plugins.includes["Invites2-type-include"]+`',true);" lang="en">Yes</button>
+									<button class="btn btn-block btn-info m-b-10" onclick="inviteHasAccount('`+activeInfo.plugins.includes["INVITES2-type-include"]+`',true);" lang="en">Yes</button>
 								</div>
 								<div class="col-lg-6">
-									<button class="btn btn-block btn-primary m-b-10" onclick="inviteHasAccount('`+activeInfo.plugins.includes["Invites2-type-include"]+`',false);" lang="en">No</button>
+									<button class="btn btn-block btn-primary m-b-10" onclick="inviteHasAccount('`+activeInfo.plugins.includes["INVITES2-type-include"]+`',false);" lang="en">No</button>
 								</div>
 							</div>
 						</div>

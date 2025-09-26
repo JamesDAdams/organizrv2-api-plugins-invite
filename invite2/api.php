@@ -7,7 +7,7 @@
  */
 /**
  * @OA\Schema(
- *     schema="getInvites",
+ *     schema="getInvites2",
  *     type="object",
  *     @OA\Property(
  *      property="response",
@@ -211,10 +211,10 @@ $app->get('/plugins/invites2/settings', function ($request, $response, $args) {
 	 *     security={{ "api_key":{} }}
 	 * )
 	 */
-	$Invites = new Invites();
-	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest(1, true)) {
-			$GLOBALS['api']['response']['data'] = $Invites->_invites2PluginGetSettings();
+	$Invites2 = new Invites2();
+	if ($Invites2->checkRoute($request)) {
+		if ($Invites2->qualifyRequest(1, true)) {
+			$GLOBALS['api']['response']['data'] = $Invites2->_invites2PluginGetSettings();
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -227,20 +227,20 @@ $app->get('/plugins/invites2', function ($request, $response, $args) {
 	 * @OA\Get(
 	 *     tags={"plugins-invites2"},
 	 *     path="/api/v2/plugins/invites2",
-	 *     summary="Get All Invites",
+	 *     summary="Get All Invites2",
 	 *     @OA\Response(
 	 *      response="200",
 	 *      description="Success",
-	 *      @OA\JsonContent(ref="#/components/schemas/getInvites"),
+	 *      @OA\JsonContent(ref="#/components/schemas/getInvites2"),
 	 *     ),
 	 *     @OA\Response(response="401",description="Unauthorized"),
 	 *     security={{ "api_key":{} }}
 	 * )
 	 */
-	$Invites = new Invites();
-	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest($Invites->config['INVITES2-Auth-include'], true)) {
-			$GLOBALS['api']['response']['data'] = $Invites->_invites2PluginGetCodes();
+	$Invites2 = new Invites2();
+	if ($Invites2->checkRoute($request)) {
+		if ($Invites2->qualifyRequest($Invites2->config['INVITES2-Auth-include'], true)) {
+			$GLOBALS['api']['response']['data'] = $Invites2->_invites2PluginGetCodes();
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -263,10 +263,10 @@ $app->post('/plugins/invites2', function ($request, $response, $args) {
 	 *     security={{ "api_key":{} }}
 	 * )
 	 */
-	$Invites = new Invites();
-	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest($Invites->config['INVITES2-Auth-include'], true)) {
-			$Invites->_invites2PluginCreateCode($Invites->apiData($request));
+	$Invites2 = new Invites2();
+	if ($Invites2->checkRoute($request)) {
+		if ($Invites2->qualifyRequest($Invites2->config['INVITES2-Auth-include'], true)) {
+			$Invites2->_invites2PluginCreateCode($Invites2->apiData($request));
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -298,10 +298,10 @@ $app->get('/plugins/invites2/{code}', function ($request, $response, $args) {
 	 *     @OA\Response(response="401",description="Unauthorized")
 	 * )
 	 */
-	$Invites = new Invites();
-	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest(999, true)) {
-			$Invites->_invites2PluginVerifyCode($args['code']);
+	$Invites2 = new Invites2();
+	if ($Invites2->checkRoute($request)) {
+		if ($Invites2->qualifyRequest(999, true)) {
+			$Invites2->_invites2PluginVerifyCode($args['code']);
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -333,10 +333,10 @@ $app->post('/plugins/invites2/{code}', function ($request, $response, $args) {
 	 *     @OA\Response(response="401",description="Unauthorized")
 	 * )
 	 */
-	$Invites = new Invites();
-	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest(999, true)) {
-			$Invites->_invites2PluginUseCode($args['code'], $Invites->apiData($request));
+	$Invites2 = new Invites2();
+	if ($Invites2->checkRoute($request)) {
+		if ($Invites2->qualifyRequest(999, true)) {
+			$Invites2->_invites2PluginUseCode($args['code'], $Invites2->apiData($request));
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
@@ -369,10 +369,10 @@ $app->delete('/plugins/invites2/{code}', function ($request, $response, $args) {
 	 *     security={{ "api_key":{} }}
 	 * )
 	 */
-	$Invites = new Invites();
-	if ($Invites->checkRoute($request)) {
-		if ($Invites->qualifyRequest($Invites->config['INVITES2-Auth-include'], true)) {
-			$Invites->_invites2PluginDeleteCode($args['code']);
+	$Invites2 = new Invites2();
+	if ($Invites2->checkRoute($request)) {
+		if ($Invites2->qualifyRequest($Invites2->config['INVITES2-Auth-include'], true)) {
+			$Invites2->_invites2PluginDeleteCode($args['code']);
 		}
 	}
 	$response->getBody()->write(jsonE($GLOBALS['api']));
